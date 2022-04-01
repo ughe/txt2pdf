@@ -1,0 +1,15 @@
+# macOS
+.DS_Store
+
+# Editor Files
+*.swp
+\#.*\#
+
+# Code Files
+*.S
+*.o
+*_c
+*_rs
+
+# Artifacts
+*.pdf
