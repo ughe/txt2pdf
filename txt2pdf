@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # Converts plaintext to PDF. Courier 12 point about 78 cols and 56 rows
+# Via sed adds troff .br directive to newlines and escapes backslashes
 set -o pipefail
 if [ $# -lt 1 ]; then >&2 echo "usage: $0 [-n] [-2] abc.txt > abc.pdf"; exit 1; fi
-pr "${@}" | expand | sed 's/$/\n.br/g;$ d' | troff -Tps -fC | grops | ps2pdf - -
+pr "${@}" | expand | sed 's/$/\n.br/g;s/\\/\\\\/g;$ d' | troff -Tps -fC | grops | ps2pdf - -
