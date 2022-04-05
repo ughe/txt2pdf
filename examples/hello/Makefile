@@ -38,7 +38,7 @@ LDFLAGS_MACOS=$\
 
 # Example exists to demonstrate txt2pdf
 hello_c_vs_rs.S.pdf: hello_c.S hello_rs.S
-	$(TXT2PDF) -n -m -h '"C vs Rust: hello world x86 -O3 (truncated 30 chars)"' hello_c.S hello_rs.S > $@
+	$(TXT2PDF) -p10 -n -m -h '"C vs Rust: hello world x86 -O3 (trunc)"' hello_c.S hello_rs.S > $@
 
 all: $(ASMS) $(OBJS) $(EXES) hello_c_vs_rs.S.pdf
 clean:
