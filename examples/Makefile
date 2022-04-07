@@ -1,3 +1,5 @@
+TXT2PDF=../txt2pdf
+
 all:
 	cd hello && make
 	mv hello/*.pdf artifacts
@@ -5,6 +7,7 @@ all:
 	mv math/*.pdf artifacts
 	cd poems && ./poems.sh
 	mv poems/*.pdf artifacts
+	$(TXT2PDF) -n -h "txt2pdf" ../txt2pdf > artifacts/txt2pdf.pdf
 
 clean:
 	rm -f artifacts/*.pdf

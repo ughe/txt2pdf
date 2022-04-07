@@ -1,8 +1,11 @@
 #!/usr/bin/env bash
-# Converts plaintext to PDF. Courier 12 point about 78 cols and 56 rows
-# Note: first argument must be "-p12" etc in order to set the font size
+# Converts plaintext to PDF. Courier 10 point font. 78 cols x 56 rows
 set -o pipefail
-if [ $# -lt 1 ]; then >&2 echo "usage: $0 [-p12] [-n] [-2] abc.txt > abc.pdf"; exit 1; fi
-PS=12 # Default font size is 12 point
-if echo $@ | grep -q -- '^ *-p[0-9][0-9]* '; then PS=`echo "$@" | sed -nr 's/^ *-p([0-9]+) .*/\1/gp'`; shift; fi
-pr "${@}" | expand | sed '1s/^/.ps '${PS}'\n/;s/$/\n.br/g;s/\\/\\\\/g;$ d' | troff -Tps -fC | grops | ps2pdf - -
+if [ $# -lt 1 ]; then
+  >&2 echo "usage: $0 [-p12] [-n] [-2] abc.txt > abc.pdf"; exit 1; fi
+PS=10 # Default font size
+if echo "$@" | grep -q -- '^ *-p[0-9][0-9]* '; then # -p12 must be 1st
+  PS=`echo "$@" | sed -nr 's/^ *-p([0-9]+) .*/\1/gp'`; shift; fi
+# Format: 1) font size $PS 2) .br every newline 3) delete last line
+FMT='1s/^/.ps '${PS}'\n/;s/$/\n.br/g;s/\\/\\\\/g;$ d'
+pr "${@}" | expand | sed "$FMT" | troff -Tps -fC | grops | ps2pdf - -
